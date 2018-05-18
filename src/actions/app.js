@@ -39,8 +39,25 @@ const loadPage = (page) => async (dispatch) => {
   let pageFound = ROUTES.find(i => i.key === page);
   pageFound = pageFound ? pageFound : ROUTE_NOT_FOUND;
   page = pageFound.key;
-  
-  await import(`${ROUTE_BASE}${pageFound.filePath}`)
+  // todo: propose tool changes to support something like this with a companion config section
+  // await import(`${ROUTE_BASE}${pageFound.filePath}`)
+
+  // This switch case helps static analysis of the code find what to include in the build
+  switch(page) {
+    case 'view1':
+      await import('../components/my-view1.js');
+      // Put code here that you want it to run every time when
+      // navigate to view1 page and my-view1.js is loaded
+      break;
+    case 'view2':
+      await import('../components/my-view2.js');
+      break;
+    case 'view3':
+      await import('../components/my-view3.js');
+      break;
+    default:
+      await import('../components/my-view404.js');
+}
 
   dispatch(updatePage(page));
 }
