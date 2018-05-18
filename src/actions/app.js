@@ -26,23 +26,21 @@ export const navigate = (path) => (dispatch) => {
   dispatch(updateDrawerState(false));
 };
 
-const loadPage = (page) => async (dispatch) => {
-  switch(page) {
-    case 'view1':
-      await import('../components/my-view1.js');
-      // Put code here that you want it to run every time when
-      // navigate to view1 page and my-view1.js is loaded
-      break;
-    case 'view2':
-      await import('../components/my-view2.js');
-      break;
-    case 'view3':
-      await import('../components/my-view3.js');
-      break;
-    default:
-      page = 'view404';
-      await import('../components/my-view404.js');
-  }
+const ROUTE_BASE = '../components/'
+export const ROUTE_NOT_FOUND = { 'filePath': 'my-view404.js', 'href': '/view404', 'key': 'view404', 'title': 'Not Found', 'tag': 'my-view404' };
+export const ROUTES = [
+  { 'filePath': 'my-view1.js', 'href': '/view1', 'key': 'view1', 'title': 'View One', 'tag': 'my-view1' },
+  { 'filePath': 'my-view2.js', 'href': '/view2', 'key': 'view2', 'title': 'View Two', 'tag': 'my-view2' },
+  { 'filePath': 'my-view3.js', 'href': '/view3', 'key': 'view3', 'title': 'View Three', 'tag': 'my-view3' }
+];
+
+
+const loadPage = (page) => async (dispatch) => {  
+  let pageFound = ROUTES.find(i => i.key === page);
+  pageFound = pageFound ? pageFound : ROUTE_NOT_FOUND;
+  page = pageFound.key;
+  
+  await import(`${ROUTE_BASE}${pageFound.filePath}`)
 
   dispatch(updatePage(page));
 }
