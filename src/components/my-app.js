@@ -194,11 +194,11 @@ class MyApp extends connect(store)(LitElement) {
     <main class="main-content">   
       ${this.getActiveView(_page)}
     </main>
-      
+
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
-    
+
     <snack-bar active?="${_snackbarOpened}">
       You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
     `;
