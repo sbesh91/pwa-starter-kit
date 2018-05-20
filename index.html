@@ -17,15 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <title>My app</title>
     <meta name="description" content="My App description">
-
-    <!--
-      The `<base>` tag below is present to support two advanced deployment options:
-      1) Differential serving. 2) Serving from a non-root path.
-
-      Instead of manually editing the `<base>` tag yourself, you should generally either:
-      a) Add a `basePath` property to the build configuration in your `polymer.json`.
-      b) Use the `--base-path` command-line option for `polymer build`.
-    -->
+    
     <base href="/">
 
     <link rel="icon" href="images/favicon.ico">
@@ -104,6 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="node_modules/web-animations-js/web-animations-next.min.js"></script>
     <!-- Built with love using PWA Starter Kit -->
     <script type="module" src="src/components/my-app.js" crossorigin></script>
   </body>

@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
+  
 import { LitElement, html } from '@polymer/lit-element';
 
 import '@polymer/app-layout/app-drawer/app-drawer.js';
@@ -192,7 +192,7 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">   
-      ${this.getActiveView(_page)}
+      ${this.getAllViews(_page)}
     </main>
 
     <footer>
@@ -204,15 +204,68 @@ class MyApp extends connect(store)(LitElement) {
     `;
   }
 
-  getActiveView(_page) {
-    let pageFound = ROUTES.find(i => i.key === _page);
-    pageFound = pageFound ? pageFound : ROUTE_NOT_FOUND;
+  getAllViews(_page) {
+    const views = ROUTES.map(route => this.createViewFromRoute(route, _page));
+    const not_found_view = this.createViewFromRoute(ROUTE_NOT_FOUND, _page);
+    views.push(not_found_view);
+    
+    const view = this.shadowRoot.querySelector(`#${this._page}`); // after
 
-    const view = document.createElement(pageFound.tag)
-    view.setAttribute('active');
-    view.classList.add('page')
+    // probably just use iron-pages
+
+    const duration = 250;
+    const baseFrame = { 'transform': 'none', 'opacity': 1 };
+    const modFrame = { 'transform': 'translate(0px,-50px)', 'opacity': 0 };
+    const animationTimingConfig = {
+      fill: 'forwards',
+      easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+      duration: duration
+    };
+
+    let effect = new KeyframeEffect(view, [modFrame, baseFrame], animationTimingConfig);
+    let inAnim = new Animation(effect, document.timeline);
+
+    if (view) {
+      console.log('start');
+      inAnim.play();
+      console.log('end');
+    }
+    return views;
+  }
+
+  createViewFromRoute(route, _page) {
+    const view = document.createElement(route.tag);
+    view.setAttribute('id', route.key);
+    view.classList.add('page');
+    if (route.key === _page) {
+      view.setAttribute('active', '');
+    }
 
     return view;
+  }
+
+  viewChange() {    
+    const view = this.shadowRoot.querySelector(`#${this._page}`); // before
+
+    const duration = 250;
+    const baseFrame = { 'transform': 'none', 'opacity': 1 };
+    const modFrame = { 'transform': 'translate(0px,-50px)', 'opacity': 0 };
+    const animationTimingConfig = {
+      fill: 'forwards',
+      easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+      duration: duration
+    };
+
+    let effect = new KeyframeEffect(view, [baseFrame, modFrame], animationTimingConfig);
+    let inAnim = new Animation(effect, document.timeline);
+
+    if (view) {
+      console.log('start');
+      inAnim.play();
+      console.log('end');
+    }
+    
+    return navigate(window.decodeURIComponent(location.pathname));
   }
 
   static get properties() {
@@ -233,7 +286,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _firstRendered() {
-    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    installRouter((location) => store.dispatch(this.viewChange()));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
       (matches) => store.dispatch(updateLayout(matches)));
