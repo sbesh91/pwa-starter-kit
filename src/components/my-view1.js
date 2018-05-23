@@ -11,8 +11,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html } from '@polymer/lit-element';
 import { SharedStyles } from './shared-styles.js';
 import { PageViewElement } from './page-view-element.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../store.js';
 
-class MyView1 extends PageViewElement {
+
+class MyView1 extends connect(store)(PageViewElement) {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -29,6 +32,15 @@ class MyView1 extends PageViewElement {
         <p>Vestibulum at est ex. Aenean id ligula id nibh dictum laoreet. Etiam non semper erat. Pellentesque eu justo rhoncus diam vulputate facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat metus ex, vel fringilla massa tincidunt sit amet. Nunc facilisis bibendum tristique. Mauris commodo, dolor vitae dapibus fermentum, odio nibh viverra lorem, eu cursus diam turpis et sapien. Nunc suscipit tortor a ligula tincidunt, id hendrerit tellus sollicitudin.</p>
       </section>
     `;
+  }
+
+  static get properties() { return {
+    
+  }}
+
+  // This is called every time something is updated in the store.
+  _stateChanged(state) {
+    
   }
 }
 

@@ -7,7 +7,6 @@
   "extraDependencies": [
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
-    "node-modules/web-animations-js/web-animations-next.min.js",
     "push-manifest.json"
   ],
   "builds": [

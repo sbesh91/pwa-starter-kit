@@ -222,12 +222,12 @@ class MyApp extends connect(store)(LitElement) {
       duration: duration
     };
 
-    let effect = new KeyframeEffect(view, [modFrame, baseFrame], animationTimingConfig);
-    let inAnim = new Animation(effect, document.timeline);
+    // let effect = new KeyframeEffect(view, [modFrame, baseFrame], animationTimingConfig);
+    // let inAnim = new Animation(effect, document.timeline);
 
     if (view) {
       console.log('start');
-      inAnim.play();
+      // inAnim.play();
       console.log('end');
     }
     return views;
@@ -238,7 +238,7 @@ class MyApp extends connect(store)(LitElement) {
     view.setAttribute('id', route.key);
     view.classList.add('page');
     if (route.key === _page) {
-      view.setAttribute('active', '');
+      view.setAttribute('active', 'true');
     }
 
     return view;
@@ -256,12 +256,12 @@ class MyApp extends connect(store)(LitElement) {
       duration: duration
     };
 
-    let effect = new KeyframeEffect(view, [baseFrame, modFrame], animationTimingConfig);
-    let inAnim = new Animation(effect, document.timeline);
+    // let effect = new KeyframeEffect(view, [baseFrame, modFrame], animationTimingConfig);
+    // let inAnim = new Animation(effect, document.timeline);
 
     if (view) {
       console.log('start');
-      inAnim.play();
+      // inAnim.play();
       console.log('end');
     }
     
